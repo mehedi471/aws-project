@@ -1,0 +1,13 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:  # Management NIC (Public Subnet: 172.31.16.0/20)
+      addresses: [172.31.16.10/20]
+      routes:
+        - to: default
+          via: 172.31.16.1  # Default gateway for public subnet
+      nameservers:
+        addresses: [8.8.8.8]
+    eth1:  # Traffic Capture NIC (Monitoring Subnet: 172.31.32.0/20)
+      addresses: [172.31.32.10/20]

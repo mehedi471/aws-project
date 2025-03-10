@@ -1,0 +1,17 @@
+graph TD
+  subgraph VPC[VPC: 172.31.0.0/16]
+    subgraph PublicSubnet[Public Subnet: 172.31.16.0/20]
+      GUIVM[GUI Access VM<br>Public IP: 172.31.16.20]
+      MonitoringVM_eth0[Monitoring VM (eth0)<br>172.31.16.10]
+    end
+
+    subgraph PrivateSubnet[Private Subnet: 172.31.32.0/20]
+      MonitoringVM_eth1[Monitoring VM (eth1)<br>172.31.32.10]
+      TargetVM[Target VM<br>172.31.32.20]
+    end
+  end
+
+  Internet -->|SSH/HTTP| GUIVM
+  GUIVM -->|SSH Tunnel| MonitoringVM_eth0
+  TargetVM -->|Traffic| MonitoringVM_eth1
+  MonitoringVM_eth1 -->|Analysis| EveBox

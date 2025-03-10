@@ -1,0 +1,35 @@
+%YAML 1.1
+---
+# Suricata IDS Configuration
+default-rule-path: /etc/suricata/rules
+rule-files:
+  - suricata.rules
+
+# Network Interfaces
+af-packet:
+  - interface: eth1   # NIC connected to Target VM subnet (172.31.32.0/20)
+    threads: auto
+    cluster-id: 98
+    defrag: yes
+
+# Home Network
+vars:
+  address-groups:
+    HOME_NET: "[172.31.32.0/20]"  # Monitoring subnet
+  port-groups:
+    HTTP_PORTS: "80"
+    SSH_PORTS: "22"
+
+# Logging
+outputs:
+  - fast:
+      enabled: yes
+      filename: fast.log
+  - eve-log:
+      enabled: yes
+      filetype: regular
+      filename: eve.json
+      types:
+        - alert
+        - http
+        - dns
